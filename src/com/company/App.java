@@ -5,11 +5,9 @@ import java.util.List;
 
 public class App {
     public static void main(String[] args) {
-        List<Integer> keys = Arrays.asList(5, 9, 2, 7, 1);
-
+        List<Integer> keys = Arrays.asList(5, 9, 2, 7, 1, 10);
         BinaryTreeBuilder binaryTreeBuilder = new BinaryTreeBuilder(keys);
         binaryTreeBuilder.build();
         System.out.println(binaryTreeBuilder.getRoot());
-
     }
 }
