@@ -1,11 +1,10 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Node {
     private int key;
-    private List<Node> nodes = new ArrayList<>();
+    private Node left;
+    private Node right;
+    private int keysNumber;
 
     public Node() {
     }
@@ -18,15 +17,40 @@ public class Node {
         this.key = key;
     }
 
-    public void addNode(Node node) {
-        nodes.add(node);
+    public int getKey() {
+        return key;
+    }
+
+    public Node getLeft() {
+        return left;
+    }
+
+    public void setLeft(Node left) {
+        this.left = left;
+    }
+
+    public Node getRight() {
+        return right;
+    }
+
+    public void setRight(Node right) {
+        this.right = right;
+    }
+
+    public int getKeysNumber() {
+        return keysNumber;
+    }
+
+    public void setKeysNumber(int keysNumber) {
+        this.keysNumber = keysNumber;
     }
 
     @Override
     public String toString() {
         return "Node{" +
                 "key=" + key +
-                ", nodes=" + nodes +
+                ", left=" + left +
+                ", right=" + right +
                 '}';
     }
 }

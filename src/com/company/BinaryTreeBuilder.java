@@ -14,6 +14,7 @@ public class BinaryTreeBuilder {
 
     public void build() {
         root = algorithm(keys);
+        root.setKeysNumber(keys.size());
     }
 
     public Node getRoot() {
@@ -31,15 +32,14 @@ public class BinaryTreeBuilder {
 
         } else if (numbers.size() == 2) {
             root.setKey(numbers.get(1));
-            root.addNode(new Node(numbers.get(0)));
+            root.setLeft(new Node(numbers.get(0)));
         } else {
             int index = getCenter(numbers);
             root.setKey(numbers.get(index));
-            List<Integer> right = numbers.subList(0, index);
-            List<Integer> left = numbers.subList(index + 1, numbers.size());
-
-            root.addNode(algorithm(right));
-            root.addNode(algorithm(left));
+            List<Integer> left = numbers.subList(0, index);
+            List<Integer> right = numbers.subList(index + 1, numbers.size());
+            root.setLeft(algorithm(left));
+            root.setRight(algorithm(right));
         }
         return root;
     }
