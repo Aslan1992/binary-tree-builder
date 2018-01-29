@@ -1,6 +1,6 @@
 package com.company;
 
-public class MathUtil {
+public class MyMath {
 
     //Calculate range for 'number' --> [2^k .. 'number' .. 2^k+1]
     public static String calcRange(int number) {
@@ -16,8 +16,19 @@ public class MathUtil {
         return "0-0";
     }
 
+    public static int getLow(int num) {
+        String range = calcRange(num);
+        return Integer.parseInt(range.split("-")[0]);
+    }
+
+    public static int getHigh(int num) {
+        String range = calcRange(num);
+        return Integer.parseInt(range.split("-")[1]);
+    }
+
     // LOGaX = b - power of 'a'
-    public static double log(int x, int a) {
-        return Math.log(x) / Math.log(a);
+    public static int log(int x, int a) {
+        double result = Math.log(x) / Math.log(a);
+        return (int) result;
     }
 }

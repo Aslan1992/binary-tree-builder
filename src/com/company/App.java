@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 public class App {
 
@@ -48,13 +49,16 @@ public class App {
     }
 
     public static void main(String[] args) {
-        List<Integer> keys = Arrays.asList(11,22,33,44,55,66,77);
+        List<Integer> keys = Arrays.asList(1,2,3,4,5,6,7,8,9);
         BinaryTreeBuilder binaryTreeBuilder = new BinaryTreeBuilder(keys);
         binaryTreeBuilder.build();
-        System.out.println(binaryTreeBuilder.getRoot());
+        Node root = binaryTreeBuilder.getRoot();
+        System.out.println(keys);
+        System.out.println(root);
+        binaryTreeBuilder.print();
 
-        BinTreePrinter printer = new BinTreePrinter(binaryTreeBuilder.getRoot());
-        printer.print();
+
 
     }
+
 }

@@ -2,10 +2,15 @@ package com.company;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 public class BinaryTreeBuilder {
     private Node root;
     private List<Integer> keys;
+    private Preparer preparer;
+    private NodeRetriever nodeRetriever;
+    private Printer printer = new Printer();
+    private int[][] treeMatrix;
 
     public BinaryTreeBuilder(List<Integer> keys) {
         this.keys = keys;
@@ -15,6 +20,35 @@ public class BinaryTreeBuilder {
     public void build() {
         root = algorithm(keys);
         root.setKeysNumber(keys.size());
+        preparer = new Preparer(keys.size());
+        nodeRetriever = new NodeRetriever();
+        treeMatrix = preparer.prepare();
+        Node[] sequence = nodeRetriever.retrieveAsZSequence(root);
+
+        Stack<Integer> keysStack = new Stack<>();
+        putTo(sequence, keysStack);
+
+        for (int i = 0; i < treeMatrix.length; i++) {
+            for (int j = 0; j < treeMatrix[0].length; j++) {
+                if (treeMatrix[i][j] == 1) {
+                    treeMatrix[i][j] = keysStack.pop();
+                }
+            }
+        }
+    }
+
+
+
+    private void putTo(Node[] seq, Stack<Integer> keys) {
+        for (int i = seq.length - 1; i >= 0 ; i--) {
+            if (seq[i] != null) {
+                keys.push(seq[i].getKey());
+            }
+        }
+    }
+
+    public void print() {
+        printer.print(treeMatrix);
     }
 
     public Node getRoot() {
