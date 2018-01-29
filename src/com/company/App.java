@@ -5,42 +5,56 @@ import java.util.List;
 
 public class App {
 
-    private static int getLengthOfNodeArr(int numOfKeys) {
-        int m = numOfKeys / 2;
-        int sum = 0;
-        while (m >= 0) {
-            sum = sum + (int) Math.pow(2, m);
-            m--;
-        }
-        return sum;
+
+    private static void prepareItemsForNodes(int[][] arr, int lines, int columns) {
+        int i = 0;
+        int j;
+        int numberOfNodesAtLine = 1;
+        int step;
+        do {
+            j = 0;
+            step = columns/numberOfNodesAtLine + 1;
+            while (j < columns) {
+                arr[i][j] = 1;
+                j += step;
+            }
+            numberOfNodesAtLine *= 2;
+            i += 2;
+        } while (i < lines);
     }
 
-    private static Node[] getBinaryTreeAsArray(Node root) {
-        int length = getLengthOfNodeArr(root.getKeysNumber());
-        Node[] nodes = new Node[length];
-        nodes[0] = root;
-
-        int step = 1;
-        for (int i = step - 1; i < nodes.length; i++) {
-            if (nodes[i] != null && nodes[i].getLeft() != null) {
-                    nodes[i + step] = nodes[i].getLeft();
-                    if (nodes[i].getRight() != null) {
-                        nodes[i + step + 1] = nodes[i].getRight();
-                    }
-            }
+    private static void prepare2(int[][] arr, int LINES, int COLUMNS) {
+        int step;
+        int numberOfNodesAtLowLine = 2;
+        int k;
+        int i = 0;
+        while (i < LINES){
+            step = COLUMNS/numberOfNodesAtLowLine;
             step++;
+            for (int j = 0; j < COLUMNS; j++) {
+                if (arr[i][j] == 1 && i != LINES - 1) {
+                    k = 1;
+                    while (k <= step) {
+                        arr[i][j + k] = -2;
+                        k++;
+                    }
+                    arr[i + 1][j] = -2;
+                    arr[i + 1][j + k - 1] = -2;
+                }
+            }
+            numberOfNodesAtLowLine *= 2;
+            i +=2;
         }
-        return nodes;
     }
 
     public static void main(String[] args) {
-        List<Integer> keys = Arrays.asList(1, 2, 3, 4, 5, 6);
+        List<Integer> keys = Arrays.asList(11,22,33,44,55,66,77);
         BinaryTreeBuilder binaryTreeBuilder = new BinaryTreeBuilder(keys);
         binaryTreeBuilder.build();
-      //  System.out.println(binaryTreeBuilder.getRoot());
+        System.out.println(binaryTreeBuilder.getRoot());
 
-
-
+        BinTreePrinter printer = new BinTreePrinter(binaryTreeBuilder.getRoot());
+        printer.print();
 
     }
 }
