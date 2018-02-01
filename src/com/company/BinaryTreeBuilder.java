@@ -47,8 +47,9 @@ public class BinaryTreeBuilder {
         }
     }
 
-    public String print() throws InterruptedException {
-        return printer.print(treeMatrix);
+    public void print(int digitsInMax) throws InterruptedException {
+         printer.setDigitsInMax(digitsInMax);
+        printer.print(treeMatrix);
     }
 
     public Node getRoot() {
