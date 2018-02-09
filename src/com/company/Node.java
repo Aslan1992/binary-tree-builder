@@ -47,10 +47,6 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Node{" +
-                "key=" + key +
-                ", left=" + left +
-                ", right=" + right +
-                '}';
+        return "Node{key=" + key + ", left=" + left + ", right=" + right + '}';
     }
 }

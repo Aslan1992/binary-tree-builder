@@ -1,4 +1,4 @@
-package com.company;
+package com.company.util;
 
 public class MyMath {
 

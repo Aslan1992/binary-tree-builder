@@ -1,33 +1,29 @@
 package com.company;
 
+import com.company.util.MyMath;
+
+//I know this is awful class :(
 public class Preparer {
-    private int numberOfKeys;
     private int LINES;
     private int COLUMNS;
-    private static final int TREE_LINKS = -2;
+    public static final int PLACE_FOR_KEY = 1;
+    private static final int PLACE_FOR_BRANCH_PART = -2;
 
-    public Preparer(int numberOfKeys) {
-        this.numberOfKeys = numberOfKeys;
-    }
 
-    public int[][] prepare() {
+    public int[][] prepareTreeMatrix(int numberOfKeys) {
         int low = MyMath.getLow(numberOfKeys);
         int high = MyMath.getHigh(numberOfKeys);
-        
         int hiercharchyLevel = MyMath.log(high, 2);
-        
         LINES = 2 * hiercharchyLevel - 1;
         COLUMNS = 2 * low - 1;
-        
         int[][] resultArr = new int[LINES][COLUMNS];
-        
-        prepare1(resultArr);
-        prepare2(resultArr);
+        preparePlacesForKeys(resultArr);
+        preparePlacesForBranches(resultArr);
 
         return resultArr;
     }
 
-    private void prepare1(int[][] resultArr) {
+    private void preparePlacesForKeys(int[][] resultArr) {
         int i = 0;
         int j;
         int numberOfNodesAtLine = 1;
@@ -36,7 +32,7 @@ public class Preparer {
             j = 0;
             step = COLUMNS/numberOfNodesAtLine + 1;
             while (j < COLUMNS) {
-                resultArr[i][j] = 1;
+                resultArr[i][j] = PLACE_FOR_KEY;
                 j += step;
             }
             numberOfNodesAtLine *= 2;
@@ -44,7 +40,7 @@ public class Preparer {
         } while (i < LINES);
     }
 
-    private void prepare2(int[][] resultArr) {
+    private void preparePlacesForBranches(int[][] resultArr) {
         int step;
         int numberOfNodesAtLowLine = 2;
         int k;
@@ -56,11 +52,11 @@ public class Preparer {
                 if (resultArr[i][j] == 1 && i != LINES - 1) {
                     k = 1;
                     while (k <= step) {
-                        resultArr[i][j + k] = TREE_LINKS;
+                        resultArr[i][j + k] = PLACE_FOR_BRANCH_PART;
                         k++;
                     }
-                    resultArr[i + 1][j] = TREE_LINKS;
-                    resultArr[i + 1][j + k - 1] = TREE_LINKS;
+                    resultArr[i + 1][j] = PLACE_FOR_BRANCH_PART;
+                    resultArr[i + 1][j + k - 1] = PLACE_FOR_BRANCH_PART;
                 }
             }
             numberOfNodesAtLowLine *= 2;

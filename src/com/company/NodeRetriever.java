@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.util.MyMath;
+
 public class NodeRetriever {
     public static final int NODE_WHICH_MUST_BE_EMPTY = -1;
 

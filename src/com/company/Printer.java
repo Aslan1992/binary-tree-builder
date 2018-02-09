@@ -1,49 +1,31 @@
 package com.company;
 
+import com.company.util.MyStringUtil;
+
 public class Printer {
 
-    private int digitsInMax;
-
-    public void print(int[][] treeArr) throws InterruptedException {
-        int digits;
+    public static void print(int[][] treeArr, int digitsInMax) throws InterruptedException {
         for (int i = 0; i < treeArr.length; i++) {
             for (int j = 0; j < treeArr[0].length; j++) {
-                digits = getNumberOfDigits(treeArr[i][j]);
-                int a = digitsInMax - digits;
-                String line = createStringWithSpaces(a);
+
+                int spaces = digitsInMax - MyStringUtil.countDigits(treeArr[i][j]);
+                String spaceLine = MyStringUtil.createStringWithSpaces(spaces);
+
                 if (treeArr[i][j] > 0) {
-                    System.out.print("(" + treeArr[i][j] + line + ")");
+                    System.out.print("(" + treeArr[i][j] + spaceLine + ")");
                 } else {
                     if (treeArr[i][j] == -1) {
-                        System.out.print("( " + line + ")");
+                        System.out.print("( " + spaceLine + ")");
                     } else if (treeArr[i][j] == -2) {
-                        System.out.print(" * "+ line);
+                        System.out.print(" * "+ spaceLine);
                     } else {
-                        System.out.print("   " + line);
+                        System.out.print("   " + spaceLine);
                     }
                 }
                 //Just for beauty output
-                Thread.sleep(80);
+                Thread.sleep(40);
             }
             System.out.println();
         }
-    }
-
-    public void setDigitsInMax(int digitsInMax) {
-        this.digitsInMax = digitsInMax;
-    }
-
-    private int getNumberOfDigits(int num) {
-        String s = String.valueOf(num);
-        s = s.replaceAll("-", "");
-        return s.length();
-    }
-
-    private String createStringWithSpaces(int spacesQuantity) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < spacesQuantity; i++) {
-            result.append(" ");
-        }
-        return result.toString();
     }
 }

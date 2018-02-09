@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.util.MyStringUtil;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
@@ -7,53 +9,30 @@ import java.util.Stack;
 public class BinaryTreeBuilder {
     private Node root;
     private List<Integer> keys;
-    private Preparer preparer;
-    private NodeRetriever nodeRetriever;
-    private Printer printer = new Printer();
-    private int[][] treeMatrix;
+    private Preparer preparer = new Preparer();
+    private NodeRetriever nodeRetriever = new NodeRetriever();
+    private int[][] treeAsMatrix;
 
     public BinaryTreeBuilder(List<Integer> keys) {
         this.keys = keys;
         Collections.sort(keys);
     }
 
+    public Node getRoot() {
+        return root;
+    }
+
+    public void print() throws InterruptedException {
+        int max = keys.get(keys.size() - 1);
+        Printer.print(treeAsMatrix, MyStringUtil.countDigits(max));
+    }
+
     public void build() {
         root = algorithm(keys);
         root.setKeysNumber(keys.size());
-        preparer = new Preparer(keys.size());
-        nodeRetriever = new NodeRetriever();
-        treeMatrix = preparer.prepare();
+        treeAsMatrix = preparer.prepareTreeMatrix(keys.size());
         Node[] sequence = nodeRetriever.retrieveAsZSequence(root);
-
-        Stack<Integer> keysStack = new Stack<>();
-        putTo(sequence, keysStack);
-
-        for (int i = 0; i < treeMatrix.length; i++) {
-            for (int j = 0; j < treeMatrix[0].length; j++) {
-                if (treeMatrix[i][j] == 1) {
-                    treeMatrix[i][j] = keysStack.pop();
-                }
-            }
-        }
-    }
-
-
-
-    private void putTo(Node[] seq, Stack<Integer> keys) {
-        for (int i = seq.length - 1; i >= 0 ; i--) {
-            if (seq[i] != null) {
-                keys.push(seq[i].getKey());
-            }
-        }
-    }
-
-    public void print(int digitsInMax) throws InterruptedException {
-         printer.setDigitsInMax(digitsInMax);
-        printer.print(treeMatrix);
-    }
-
-    public Node getRoot() {
-        return root;
+        fillMatrix(sequence, treeAsMatrix);
     }
 
     private Node algorithm(List<Integer> numbers) {
@@ -81,5 +60,21 @@ public class BinaryTreeBuilder {
 
     private int getCenter(List<Integer> numbers) {
         return numbers.size()/2;
+    }
+
+    private void fillMatrix(Node[] seq, int[][] treeMatrix) {
+        Stack<Integer> seqAsStack = new Stack<>();
+        for (int i = seq.length - 1; i >= 0 ; i--) {
+            if (seq[i] != null) {
+                seqAsStack.push(seq[i].getKey());
+            }
+        }
+        for (int i = 0; i < treeMatrix.length; i++) {
+            for (int j = 0; j < treeMatrix[0].length; j++) {
+                if (treeMatrix[i][j] == 1) {
+                    treeMatrix[i][j] = seqAsStack.pop();
+                }
+            }
+        }
     }
 }
